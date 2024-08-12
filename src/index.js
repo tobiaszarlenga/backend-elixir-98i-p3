@@ -23,6 +23,9 @@ app.use(corse());
 // Rutas,(o endpoints)
 
 // TODO: importar rutas
+app.get('/api/v1/prueba', (req, res) => {
+  res.json({ message: 'Hola desde el backend' });
+});
 
 // loop del servidor
 app.listen(PORT, () => {
