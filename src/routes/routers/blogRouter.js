@@ -1,14 +1,15 @@
 import express from 'express';
-import { blogs } from '../../controllers/blogs/index.js';
+import { Blogs } from '../../controllers/blogs/index.js';
 
 export const blogRouter = express.Router();
 
 // get-------------
-blogRouter.get('/', blogs.GetController.getBlogs);
+blogRouter.get('/', Blogs.GetController.getBlogs);
 
 // post------------
 // /api/v1/blog/
-blogRouter.post('/', blogs.PostController.postBlog);
+blogRouter.post('/', Blogs.PostController.postBlog);
 // put-------------
+blogRouter.put('/:id', Blogs.PutController.putBlog);
 
 // delete-------------
