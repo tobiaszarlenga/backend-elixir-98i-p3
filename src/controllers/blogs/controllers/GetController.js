@@ -4,7 +4,10 @@ import { internalError } from '../../../helpers/helpers.js';
 export class GetController {
   static async getBlogs(_, res) {
     try {
-      const data = await BlogsModel.find();
+      const data = await BlogsModel.find({
+        // criterio de busqueda
+        isActive: true,
+      });
 
       const filterdData = data.map((blog) => {
         return {
