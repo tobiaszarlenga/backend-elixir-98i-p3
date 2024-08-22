@@ -1,40 +1,28 @@
 import jwt from 'jsonwebtoken';
-import HttpStatus from 'http-status-codes';
 
-import { envs } from '../config/envs.js';
-
-const { JWT_SECRET_KEY } = envs;
-
-const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next) => {
   const { headers } = req;
-  const authHeader = headers.authorization; // string
 
-  if (!authHeader) {
-    res.status(HttpStatus.UNAUTHORIZED).json({
+  const authorizationHeader = headers.authorization;
+
+  if (!authorizationHeader) {
+    res.status(401).json({
       data: null,
-      message: 'Token no detectado en el header "Authorization"',
+      message: 'No se encontro un token en la peticion',
     });
     return;
   }
-
-  // Separate the word "Bearer" from the token
-  const token = authHeader.split(' ')[1];
-
+  // si el header esta tiene el valor "Bearer Token"
+  const token = authorizationHeader.split(' ')[1];
   try {
-    const tokenInfo = jwt.verify(token, JWT_SECRET_KEY);
-
-    req.user = tokenInfo.user;
-
-    // valid token
+    const data = jwt.verify(token, process.env.SECRET_KEY);
+    // agregamos el campo "user a la request para futuro uso "
+    req.user = data.user;
     next();
-  } catch (err) {
-    // invalid token
-    console.error('🟥', err);
-    res.status(HttpStatus.UNAUTHORIZED).json({
+  } catch (_) {
+    res.status(401).json({
       data: null,
-      message: 'Token no valido o expirado',
+      message: 'Token invalido',
     });
   }
 };
-
-export default isAuthenticated;

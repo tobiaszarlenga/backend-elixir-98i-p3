@@ -1,18 +1,15 @@
-import HttpStatus from 'http-status-codes';
+import HttpCodes from 'http-status-codes';
 
-const validateBody = (req, res, next, schema) => {
-  const { error } = schema.validate(req.body);
-
+export const validateBody = (req, res, next, validationShema) => {
+  const { body } = req;
+  const { error } = validationShema.validate(body);
   if (error) {
-    res.status(HttpStatus.BAD_REQUEST).json({
+    // error de validacion
+    res.status(HttpCodes.BAD_REQUEST).json({
       data: null,
-      message: error.details[0].message,
+      message: error.details[0].message || 'error de validacion',
     });
     return;
   }
-
-  // No errors, continue with the request
   next();
 };
-
-export default validateBody;
