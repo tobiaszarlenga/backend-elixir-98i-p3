@@ -4,6 +4,7 @@ import { validateBody } from '../../middlewares/validateBody.js';
 import { isAuthenticated } from '../../middlewares/isAuthenticated.js';
 
 import { post_put_blogValidationSchema } from '../../helpers/validationSchemas/blogsValidationSchemas.js';
+import { isAdmin } from '../../middlewares/isAdmin.js';
 
 export const blogRouter = express.Router();
 
@@ -15,6 +16,7 @@ blogRouter.get('/', Blogs.GetController.getBlogs);
 blogRouter.post(
   '/',
   isAuthenticated,
+  isAdmin,
   (req, res, next) =>
     validateBody(req, res, next, post_put_blogValidationSchema),
   Blogs.PostController.postBlog,
@@ -22,10 +24,17 @@ blogRouter.post(
 // put-------------
 blogRouter.put(
   '/:id',
+  isAuthenticated,
+  isAdmin,
   (req, res, next) =>
     validateBody(req, res, next, post_put_blogValidationSchema),
   Blogs.PutController.putBlog,
 );
 
 // delete-------------
-blogRouter.delete('/:id', Blogs.DeleteController.deleteBlog);
+blogRouter.delete(
+  '/:id',
+  isAuthenticated,
+  isAdmin,
+  Blogs.DeleteController.deleteBlog,
+);

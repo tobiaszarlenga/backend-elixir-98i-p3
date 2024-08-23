@@ -1,3 +1,5 @@
+import HttpCodes from 'http-status-codes';
+
 import jwt from 'jsonwebtoken';
 
 export const isAuthenticated = (req, res, next) => {
@@ -6,7 +8,7 @@ export const isAuthenticated = (req, res, next) => {
   const authorizationHeader = headers.authorization;
 
   if (!authorizationHeader) {
-    res.status(401).json({
+    res.status(HttpCodes.UNAUTHORIZED).json({
       data: null,
       message: 'No se encontro un token en la peticion',
     });
