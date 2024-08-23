@@ -1,30 +1,38 @@
 import express from 'express';
 import morgan from 'morgan';
-import cors from 'cors';
+import corse from 'cors';
 
-import { mainRouter } from './routes/mainRouters.js';
-import { connectDB } from './database/database.js';
+import './database/database.js';
+
+import { mainRouter } from './routes/mainRouter.js';
+
+// TODO: importar base de datos
 
 console.clear();
-console.log('⌛ Inicializando servidor...');
+console.log('inicializando servidor...');
 
+// inicializar el servidor
 const app = express();
+
+// configurar los valores del servidor
 
 const PORT = process.env.PORT || 3000;
 
-connectDB();
+// Middleware
+
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors({}));
+app.use(corse());
+
+// Rutas,(o endpoints)
 
 app.use('/api/v1', mainRouter);
 
-// app.get('/api/v1/prueba', (req, res) => {
-//   res.json({
-//     message: 'Hola mundo',
-//   });
-// });
+app.get('/api/v1/prueba', (req, res) => {
+  res.json({ message: 'Hola desde el backend' });
+});
 
+// loop del servidor
 app.listen(PORT, () => {
-  console.log(`🥟 El servidor está arriba y en el puerto ${PORT}`);
+  console.log(`Server corriendo en el puerto ${PORT}`);
 });
