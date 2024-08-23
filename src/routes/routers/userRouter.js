@@ -13,7 +13,7 @@ export const userRouter = express.Router();
 userRouter.get('/', isAuthenticated, isAdmin, Users.GetController.getUsers);
 
 // POST ----------------------------
-// /api/v1/users/
+// /api/v1/users
 userRouter.post(
   '/',
   (req, res, next) => validateBody(req, res, next, post_userValidationSchema),

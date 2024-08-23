@@ -7,6 +7,7 @@ export class PostController {
     // si llegamos aca la info que nos manda el fe ya esta validada
 
     const { body } = req;
+    console.log(body);
 
     const newBlog = new BlogModel({
       title: body.title,
