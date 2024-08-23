@@ -10,6 +10,7 @@ export const blogRouter = express.Router();
 
 // get-------------
 blogRouter.get('/', Blogs.GetController.getBlogs);
+blogRouter.get('/:id', Blogs.GetController.getBlog);
 
 // post------------
 // /api/v1/blog/

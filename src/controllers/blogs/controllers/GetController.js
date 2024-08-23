@@ -25,4 +25,30 @@ export class GetController {
       internalError(res, e, 'ocurrio un error al leer la lista ');
     }
   }
+
+  static async getBlog(req, res) {
+    const {
+      params: { id },
+    } = req;
+    try {
+      const data = await BlogsModel.findOne({
+        // criterio de busqueda
+        isActive: true,
+        _id: id,
+      });
+
+      const formattedData = {
+        id: data._doc._id,
+        title: data._doc.title,
+        imageUrl: data._doc.imageUrl,
+        content: data._doc.content,
+      };
+      res.json({
+        data: formattedData,
+        message: 'blog encontrado correctamente',
+      });
+    } catch (e) {
+      internalError(res, e, 'ocurrio un error al leer el blog ');
+    }
+  }
 }
