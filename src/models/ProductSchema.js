@@ -5,11 +5,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  image: {
+  imageUrl: {
     type: String,
     required: true,
   },
@@ -17,7 +13,28 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isActive: Boolean,
+  price: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  available: {
+    type: String,
+    required: true,
+    enum: ['Sí', 'No'],
+  },
+  optionsFree: {
+    type: String,
+    required: true,
+    enum: ['vegetarian', 'vegan', 'glutenFree'],
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export default mongoose.model('Products', productSchema);

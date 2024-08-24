@@ -26,18 +26,7 @@ export const contactSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  isActive: Boolean,
 });
 
 export default mongoose.model('contact', contactSchema);
-
-// const app = express();
-
-// app.post('/contact', async (req, res) => {
-//   try {
-//     const newContact = new Contact(req.body);
-//     await newContact.save();
-//     res.status(201).json({ message: 'Contacto guardado correctamente' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error al guardar el contacto' });
-//   }
-// });

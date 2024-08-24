@@ -1,47 +1,42 @@
-import HttpStatus from 'http-status-codes';
-
-import ProductsModel from '../../../models/ProductSchema.js';
+import HttpCodes from 'http-status-codes';
+import ProductModel from '../../../models/ProductSchema.js';
+import { internalError } from '../../../helpers/helpers.js';
 
 export class PutController {
-  static async putProduct(req, res) {
-    // We read the id and data of the product to update
-    const {
-      params: { id },
-      body,
-    } = req;
-
-    // Trim body fields
-    Object.keys(body).forEach((key) => {
-      if (typeof body[key] === 'string') {
-        body[key] = body[key].trim();
-      }
-    });
+  // eslint-disable-next-line consistent-return
+  static async updateProduct(req, res) {
+    const { body } = req;
+    const { id } = req.params;
 
     try {
-      // (filter,newData)
-      const action = await ProductsModel.updateOne({ _id: id }, body);
+      const updatedProduct = await ProductModel.findByIdAndUpdate(
+        id,
+        {
+          name: body.name,
+          price: body.price,
+          imageUrl: body.imageUrl,
+          description: body.description,
+          category: body.category,
+          available: body.available,
+          optionsFree: body.optionsFree,
+        },
+        { new: true, runValidators: true },
+      );
 
-      // matchedCount says how many elements were found to be modified
-      if (action.matchedCount === 0) {
-        res.status(HttpStatus.NOT_FOUND).json({
-          data: null,
+      if (!updatedProduct) {
+        return res.status(HttpCodes.NOT_FOUND).json({
           message: 'Producto no encontrado',
         });
-        return;
       }
 
-      res.json({
-        data: null,
-        message: 'Producto actualizado',
+      res.status(HttpCodes.OK).json({
+        data: updatedProduct,
+        message: 'Producto actualizado correctamente',
       });
-    } catch (err) {
-      console.error('🟥', err);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errors: {
-          data: null,
-          message: `ERROR: ${err}`,
-        },
-      });
+    } catch (e) {
+      internalError(res, e, 'Ocurrió un error al actualizar el producto');
     }
   }
 }
+
+export default PutController;
