@@ -1,28 +1,28 @@
 import HttpCodes from 'http-status-codes';
-import BlogModel from '../../../models/blogSchema.js';
+import ProductModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
 
 export class PostController {
-  static async postBlog(req, res) {
+  static async postProduct(req, res) {
     // si llegamos aca la info que nos manda el fe ya esta validada
 
     const { body } = req;
     console.log(body);
 
-    const newBlog = new BlogModel({
+    const newProduct = new ProductModel({
       title: body.title,
       imageUrl: body.imageUrl,
       content: body.content,
     });
     try {
-      await newBlog.save();
+      await newProduct.save();
       res.status(HttpCodes.CREATED).json({
         data: null,
 
-        messege: 'blog guardado correctamente',
+        messege: 'product guardado correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'ocurrio un error al guardar el blog');
+      internalError(res, e, 'ocurrio un error al guardar el product');
     }
   }
 }

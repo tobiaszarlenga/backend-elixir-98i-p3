@@ -1,16 +1,16 @@
 import HttpCodes from 'http-status-codes';
-import BlogModel from '../../../models/blogSchema.js';
+import ProductModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
 
 export class PutController {
-  static async putBlog(req, res) {
+  static async putProduct(req, res) {
     const {
       body,
       params: { id },
     } = req;
     // si llegamos al controlador el body ya esta validado y tiene los campos correspondientes
     try {
-      const action = await BlogModel.updateOne(
+      const action = await ProductModel.updateOne(
         {
           _id: id,
         },
@@ -25,7 +25,7 @@ export class PutController {
       }
       res.json({
         Data: null,
-        message: 'blog actualizado correctamente',
+        message: 'product actualizado correctamente',
       });
     } catch (e) {
       internalError(
