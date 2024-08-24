@@ -1,13 +1,12 @@
 import Joi from 'joi';
+import { emailRegex } from './usersValidationSchema';
 
 export const post_loginValidationSchema = Joi.object({
-  username: Joi.string().trim().min(3).max(20).required().messages({
-    'string.min': "El campo 'username' debe tener como mínimo 3 caracteres",
-    'string.max': "El campo 'username' debe tener como mucho 20 caracteres",
-    'any.required': "El campo 'username' es requerido",
-    '*': "Revisa el campo 'username'",
+  email: Joi.string().trim().regex(emailRegex).email().required().messages({
+    'string.email': "El campo 'email' debe ser un correo electrónico válido",
+    'any.required': "El campo 'email' es requerido",
+    '*': "Revisa el campo 'email'",
   }),
-  // Es lo mismo usar .pattern()
   password: Joi.string().trim().min(3).required().messages({
     'string.min': "El campo 'password' debe tener al menos 3 caracteres",
     'any.required': "El campo 'password' es requerido",
