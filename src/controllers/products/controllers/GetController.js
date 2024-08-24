@@ -1,37 +1,37 @@
-import BlogsModel from '../../../models/blogSchema.js';
+import ProductsModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
 
 export class GetController {
-  static async getBlogs(_, res) {
+  static async getProducts(_, res) {
     try {
-      const data = await BlogsModel.find({
+      const data = await ProductsModel.find({
         // criterio de busqueda
         isActive: true,
       });
 
-      const filterdData = data.map((blog) => {
+      const filterdData = data.map((product) => {
         return {
-          id: blog._doc._id,
-          title: blog._doc.title,
-          imageUrl: blog._doc.imageUrl,
-          content: blog._doc.content,
+          id: product._doc._id,
+          title: product._doc.title,
+          imageUrl: product._doc.imageUrl,
+          content: product._doc.content,
         };
       });
       res.json({
         data: filterdData,
-        message: 'blogs encontrado correctamente',
+        message: 'products encontrado correctamente',
       });
     } catch (e) {
       internalError(res, e, 'ocurrio un error al leer la lista ');
     }
   }
 
-  static async getBlog(req, res) {
+  static async getProduct(req, res) {
     const {
       params: { id },
     } = req;
     try {
-      const data = await BlogsModel.findOne({
+      const data = await ProductsModel.findOne({
         // criterio de busqueda
         isActive: true,
         _id: id,
@@ -45,10 +45,10 @@ export class GetController {
       };
       res.json({
         data: formattedData,
-        message: 'blog encontrado correctamente',
+        message: 'product encontrado correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'ocurrio un error al leer el blog ');
+      internalError(res, e, 'ocurrio un error al leer el product ');
     }
   }
 }

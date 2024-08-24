@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-export const post_put_blogValidationSchema = joi.object({
+export const post_put_productValidationSchema = joi.object({
   title: joi.string().trim().min(3).max(30).required().messages({
     'string.min': 'El título debe tener al menos 3 caracteres',
     'string.max': 'El título debe tener menos de 30 caracteres',

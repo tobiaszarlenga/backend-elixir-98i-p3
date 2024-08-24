@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const Blog = new mongoose.Schema({
+const Product = new mongoose.Schema({
   title: { type: String, required: true },
   imageUrl: { type: String, required: true },
   content: { type: String, required: true },
@@ -9,4 +9,4 @@ const Blog = new mongoose.Schema({
     default: true,
   },
 });
-export default mongoose.model('Blog', Blog);
+export default mongoose.model('Product', Product);
