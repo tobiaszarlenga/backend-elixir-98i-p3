@@ -26,7 +26,6 @@ export const contactSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  isActive: Boolean,
 });
 
 export default mongoose.model('contact', contactSchema);

@@ -1,140 +1,103 @@
 import Joi from 'joi';
 
-export const post_productSchema = Joi.object({
-  name: Joi.string().required().trim().min(3).max(30).messages({
-    'string.empty': 'El campo "name" no puede estar vacío',
-    'string.min': 'El campo "name" debe tener al menos 3 caracteres',
-    'string.max': 'El campo "name" debe tener máximo 30 caracteres',
-    'any.required': 'El campo "name" es obligatorio',
-    '*': 'Revisa el campo "name"',
+export const post_productValidationSchema = Joi.object({
+  name: Joi.string().trim().max(30).required().messages({
+    'string.max': "El campo 'name' debe tener como mucho 30 caracteres",
+    'any.required': "El campo 'name' es requerido",
+    '*': "Revisa el campo 'name'",
   }),
-  price: Joi.number().required().min(1).max(1000000).messages({
-    'number.empty': 'El campo "price" no puede estar vacío',
-    'number.min': 'El campo "price" debe ser mayor a 0',
-    'number.max': 'El campo "price" debe ser menor a 1000000',
-    'any.required': 'El campo "price" es obligatorio',
-    '*': 'Revisa el campo "price"',
+  imageUrl: Joi.string().trim().uri().required().messages({
+    'string.uri': "El campo 'imageUrl' debe ser una URL valida",
+    'any.required': "El campo 'imageUrl' es requerido",
+    '*': "Revisa el campo 'imageUrl'",
   }),
-  description: Joi.string().required().trim().min(3).max(100).messages({
-    'string.empty': 'El campo "description" no puede estar vacío',
-    'string.min': 'El campo "description" debe tener al menos 3 caracteres',
-    'string.max': 'El campo "description" debe tener máximo 100 caracteres',
-    'any.required': 'El campo "description" es obligatorio',
-    '*': 'Revisa el campo "description"',
+  price: Joi.string()
+    .pattern(/^\d+(\.\d{2})?$/)
+    .required()
+    .custom((value, helpers) => {
+      const numericValue = parseFloat(value);
+      if (numericValue < 0.01 || numericValue > 1000000) {
+        return helpers.message("El campo 'price' debe estar entre 0.01 y 1000");
+      }
+      return value;
+    })
+    .messages({
+      'string.pattern.base':
+        "El campo 'price' debe ser un número con dos decimales",
+      'any.required': "El campo 'price' es requerido",
+      '*': "Revisa el campo 'price'",
+    }),
+  description: Joi.string().trim().min(3).max(500).required().messages({
+    'string.min': "El campo 'description' debe tener como mínimo 3 caracteres",
+    'string.max': "El campo 'description' debe tener como mucho 500 caracteres",
+    'any.required': "El campo 'description' es requerido",
+    '*': "Revisa el campo 'description'",
   }),
-  imageUrl: Joi.string().required().trim().min(5).max(1000).uri().messages({
-    'string.empty': 'El campo "imageUrl" no puede estar vacío',
-    'string.min': 'El campo "imageUrl" debe tener al menos 5 caracteres',
-    'string.max': 'El campo "imageUrl" debe tener máximo 1000 caracteres',
-    'string.uri': 'El campo "imageUrl" debe ser una URL válida',
-    'any.required': 'El campo "imageUrl" es obligatorio',
-    '*': 'Revisa el campo "imageUrl"',
+  available: Joi.boolean().required().messages({
+    'any.required': "El campo 'available' es requerido",
+    '*': "Revisa el campo 'available'",
   }),
-  category: Joi.string().required().trim().messages({
-    'string.empty': 'El campo "category" no puede estar vacío',
-    'any.required': 'El campo "category" es obligatorio',
-    '*': 'Revisa el campo "category"',
-  }),
-  available: Joi.string().required().trim().messages({
-    'string.empty': 'El campo "available" no puede estar vacío',
-    'any.required': 'El campo "available" es obligatorio',
-    '*': 'Revisa el campo "available"',
-  }),
-  optionsFree: Joi.string().required().trim().messages({
-    'string.empty': 'El campo "optionsFree" no puede estar vacío',
-    'any.required': 'El campo "optionsFree" es obligatorio',
-    '*': 'Revisa el campo "optionsFree"',
-  }),
-  isActive: Joi.boolean().default(true).messages({
-    '*': 'Revisa el campo "isActive"',
-  }),
-}).messages({
-  'object.unknown': 'El campo "{#key}" no está permitido',
-  '*': 'Formato del body incorrecto',
+  category: Joi.string()
+    .trim()
+    .valid('entrantes', 'burgers', 'kids', 'bebidas', 'postres')
+    .required()
+    .messages({
+      'any.only': "El campo 'category' debe ser uno de los valores permitidos",
+      'any.required': "El campo 'category' es requerido",
+      '*': "Revisa el campo 'category'",
+    }),
 });
 
-export const put_productSchema = Joi.object({
-  name: Joi.string().trim().min(3).max(30).messages({
-    'string.empty': 'El campo "name" no puede estar vacío',
-    'string.min': 'El campo "name" debe tener al menos 3 caracteres',
-    'string.max': 'El campo "name" debe tener máximo 30 caracteres',
-    '*': 'Revisa el campo "name"',
+export const put_productValidationSchema = Joi.object({
+  name: Joi.string().trim().max(30).messages({
+    'string.max': "El campo 'name' debe tener como mucho 30 caracteres",
+    '*': "Revisa el campo 'name'",
   }),
-  price: Joi.number().min(1).max(1000000).messages({
-    'number.empty': 'El campo "price" no puede estar vacío',
-    'number.min': 'El campo "price" debe ser mayor a 0',
-    'number.max': 'El campo "price" debe ser menor a 1000000',
-    '*': 'Revisa el campo "price"',
+  imageUrl: Joi.string().trim().uri().messages({
+    'string.uri': "El campo 'imageUrl' debe ser una URL valida",
+    '*': "Revisa el campo 'imageUrl'",
   }),
-  description: Joi.string().trim().min(3).max(100).messages({
-    'string.empty': 'El campo "description" no puede estar vacío',
-    'string.min': 'El campo "description" debe tener al menos 3 caracteres',
-    'string.max': 'El campo "description" debe tener máximo 100 caracteres',
-    '*': 'Revisa el campo "description"',
+  price: Joi.string()
+    .pattern(/^\d+(\.\d{2})?$/)
+
+    .custom((value, helpers) => {
+      const numericValue = parseFloat(value);
+      if (numericValue < 0.01 || numericValue > 1000000) {
+        return helpers.message("El campo 'price' debe estar entre 0.01 y 1000");
+      }
+      return value;
+    })
+    .messages({
+      'string.pattern.base':
+        "El campo 'price' debe ser un número con dos decimales",
+      '*': "Revisa el campo 'price'",
+    }),
+  description: Joi.string().trim().min(3).max(500).messages({
+    'string.min': "El campo 'description' debe tener como mínimo 3 caracteres",
+    'string.max': "El campo 'description' debe tener como mucho 500 caracteres",
+    '*': "Revisa el campo 'description'",
   }),
-  imageUrl: Joi.string().trim().min(5).max(1000).uri().messages({
-    'string.empty': 'El campo "imageUrl" no puede estar vacío',
-    'string.min': 'El campo "imageUrl" debe tener al menos 5 caracteres',
-    'string.max': 'El campo "imageUrl" debe tener máximo 1000 caracteres',
-    'string.uri': 'El campo "imageUrl" debe ser una URL válida',
-    '*': 'Revisa el campo "imageUrl"',
+  available: Joi.boolean().messages({
+    '*': "Revisa el campo 'available'",
   }),
-  category: Joi.string().trim().messages({
-    'string.empty': 'El campo "category" no puede estar vacío',
-    '*': 'Revisa el campo "category"',
-  }),
-  available: Joi.string().trim().messages({
-    'string.empty': 'El campo "available" no puede estar vacío',
-    '*': 'Revisa el campo "available"',
-  }),
-  optionsFree: Joi.string().trim().messages({
-    'string.empty': 'El campo "optionsFree" no puede estar vacío',
-    '*': 'Revisa el campo "optionsFree"',
-  }),
-  isActive: Joi.boolean().default(true).messages({
-    '*': 'Revisa el campo "isActive"',
-  }),
+  category: Joi.string()
+    .trim()
+    .valid('entrantes', 'burgers', 'kids', 'bebidas', 'postres')
+    .messages({
+      'any.only': "El campo 'category' debe ser uno de los valores permitidos",
+      '*': "Revisa el campo 'category'",
+    }),
 })
-  .custom((value, helpers) => {
-    const {
-      name,
-      price,
-      description,
-      imageUrl,
-      category,
-      available,
-      optionsFree,
-    } = value;
+  .or(
+    'name',
+    'imageUrl',
+    'price',
+    'description',
+    'available',
 
-    if (
-      !name &&
-      !price &&
-      !description &&
-      !imageUrl &&
-      !category &&
-      !available &&
-      !optionsFree
-    ) {
-      return helpers.message(
-        'Al menos un campo debe estar presente en el body',
-      );
-    }
-
-    return true;
-  })
+    'category',
+  )
   .messages({
-    'object.unknown': 'El campo "{#key}" no está permitido',
-    '*': 'Formato del body incorrecto',
+    'object.missing':
+      'Debes proporcionar al menos un campo para actualizar el producto',
   });
-
-export const get_params_productSchema = Joi.object({
-  id: Joi.string().required().length(24).messages({
-    'string.empty': 'El parámetro "id" no puede estar vacío',
-    'string.length': 'El parámetro "id" debe ser un id válido',
-    'any.required': 'El parámetro "id" es obligatorio',
-    '*': 'Revisa el parámetro "id"',
-  }),
-});
-
-export const put_params_productSchema = get_params_productSchema;
-export const delete_params_productSchema = get_params_productSchema;

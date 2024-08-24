@@ -1,6 +1,6 @@
-import HttpStatus from 'http-status-codes';
-
-import ProductsModel from '../../../models/ProductSchema.js';
+import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/ProductSchema.js';
+import HttpCodes from 'http-status-codes';
 
 export class DeleteController {
   static async deleteProduct(req, res) {
@@ -9,31 +9,28 @@ export class DeleteController {
     } = req;
 
     try {
-      const action = await ProductsModel.updateOne(
-        { _id: id, isActive: true },
-        { isActive: false },
+      const action = await ProductModel.updateOne(
+        {
+          _id: id,
+          isActive: true,
+        },
+        {
+          isActive: false,
+        },
       );
-
       if (action.matchedCount === 0) {
-        res.status(HttpStatus.NOT_FOUND).json({
+        res.status(HttpCodes.BAD_REQUEST).json({
           data: null,
-          message: 'Producto no encontrado',
+          message: 'El producto indicado no fue encontrado',
         });
         return;
       }
-
       res.json({
         data: null,
-        message: 'Producto eliminado',
+        message: 'Producto eliminado correctamente',
       });
-    } catch (err) {
-      console.error('🟥', err);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errors: {
-          data: null,
-          message: `ERROR: ${err}`,
-        },
-      });
+    } catch (e) {
+      internalError(res, e, 'Ocurrió un error al eliminar el producto');
     }
   }
 }

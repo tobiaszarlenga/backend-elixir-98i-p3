@@ -1,42 +1,34 @@
-import HttpCodes from 'http-status-codes';
-import ProductModel from '../../../models/ProductSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/ProductSchema.js';
+import HttpCodes from 'http-status-codes';
 
 export class PutController {
-  // eslint-disable-next-line consistent-return
-  static async updateProduct(req, res) {
-    const { body } = req;
-    const { id } = req.params;
+  static async putProduct(req, res) {
+    const {
+      body,
+      params: { id },
+    } = req;
 
     try {
-      const updatedProduct = await ProductModel.findByIdAndUpdate(
-        id,
+      const action = await ProductModel.updateOne(
         {
-          name: body.name,
-          price: body.price,
-          imageUrl: body.imageUrl,
-          description: body.description,
-          category: body.category,
-          available: body.available,
-          optionsFree: body.optionsFree,
+          _id: id,
         },
-        { new: true, runValidators: true },
+        body,
       );
-
-      if (!updatedProduct) {
-        return res.status(HttpCodes.NOT_FOUND).json({
-          message: 'Producto no encontrado',
+      if (action.matchedCount === 0) {
+        res.status(HttpCodes.BAD_REQUEST).json({
+          data: null,
+          message: 'El producto indicado no fue encontrado',
         });
+        return;
       }
-
-      res.status(HttpCodes.OK).json({
-        data: updatedProduct,
+      res.json({
+        data: null,
         message: 'Producto actualizado correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'Ocurrió un error al actualizar el producto');
+      internalError(res, e, 'Ocurrió un error al actualizar los datos');
     }
   }
 }
-
-export default PutController;

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema({
+const Product = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -9,27 +9,22 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  price: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
   },
-  price: {
-    type: Number,
+  available: {
+    type: Boolean,
     required: true,
   },
   category: {
     type: String,
     required: true,
-  },
-  available: {
-    type: String,
-    required: true,
-    enum: ['Sí', 'No'],
-  },
-  optionsFree: {
-    type: String,
-    required: true,
-    enum: ['vegetarian', 'vegan', 'glutenFree'],
+    enum: ['entrantes', 'burgers', 'kids', 'bebidas', 'postres'],
   },
   isActive: {
     type: Boolean,
@@ -37,4 +32,4 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Products', productSchema);
+export default mongoose.model('Products', Product);

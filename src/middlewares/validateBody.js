@@ -6,7 +6,6 @@ export const validateBody = (req, res, next, validationSchema) => {
   const { error } = validationSchema.validate(body);
 
   if (error) {
-    // ERROR DE VALIDACION
     res.status(HttpCodes.BAD_REQUEST).json({
       data: null,
       message:

@@ -1,49 +1,31 @@
-import ProductModel from '../../../models/ProductSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/ProductSchema.js';
 
 export class GetController {
-  static async getProducts(req, res) {
+  static async getProducts(_, res) {
     try {
-      const data = await ProductModel.find({ isActive: true }).lean();
+      const data = await ProductModel.find({
+        isActive: true,
+      });
 
-      const filteredData = data.map((product) => ({
-        id: product._id,
-        name: product.name,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        description: product.description,
-        category: product.category,
-        available: product.available,
-        optionsFree: product.optionsFree,
-      }));
+      const filteredData = data.map((product) => {
+        return {
+          id: product._doc._id,
+          name: product._doc.name,
+          imageUrl: product._doc.imageUrl,
+          price: product._doc.price,
+          description: product._doc.description,
+          available: product._doc.available,
+          category: product._doc.category,
+        };
+      });
 
       res.json({
         data: filteredData,
-        message: 'Productos encontrados correctamente',
+        message: 'Lista de productos encontrada correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'Ocurrió un error al leer la lista de productos');
-    }
-  }
-
-  // eslint-disable-next-line consistent-return
-  static async getProductById(req, res) {
-    try {
-      const { id } = req.params;
-      const product = await ProductModel.findById(id).lean();
-
-      if (!product || !product.isActive) {
-        return res.status(404).json({
-          message: 'Producto no encontrado',
-        });
-      }
-
-      res.json({
-        data: product,
-        message: 'Producto encontrado correctamente',
-      });
-    } catch (e) {
-      internalError(res, e, 'Ocurrió un error al leer el producto');
+      internalError(res, e, 'Ocurrió un error al encontrar los datos');
     }
   }
 }
