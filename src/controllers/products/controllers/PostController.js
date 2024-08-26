@@ -1,28 +1,29 @@
-import HttpCodes from 'http-status-codes';
-import ProductModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/productSchema.js';
+import HttpCodes from 'http-status-codes';
 
 export class PostController {
   static async postProduct(req, res) {
-    // si llegamos aca la info que nos manda el fe ya esta validada
-
     const { body } = req;
-    console.log(body);
 
     const newProduct = new ProductModel({
-      title: body.title,
+      name: body.name,
       imageUrl: body.imageUrl,
-      content: body.content,
+      price: body.price,
+      description: body.description,
+      available: body.available,
+      category: body.category,
     });
+
     try {
       await newProduct.save();
+
       res.status(HttpCodes.CREATED).json({
         data: null,
-
-        messege: 'product guardado correctamente',
+        message: 'Producto guardado correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'ocurrio un error al guardar el product');
+      internalError(res, e, 'Ocurrió un error al guardar los datos');
     }
   }
 }
