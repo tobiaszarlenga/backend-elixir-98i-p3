@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 const User = new mongoose.Schema({
-  nane: {
+  name: {
+    // Cambiado de 'nane' a 'name'
     type: String,
     required: true,
   },
