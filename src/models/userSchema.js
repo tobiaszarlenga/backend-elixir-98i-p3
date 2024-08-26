@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
+import { emailRegex } from '../helpers/validationSchemas/usersValidationSchema';
 
-const User = new mongoose.Schema({
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  username: { type: String, required: true },
-  password: { type: String, required: true },
-  isAdmin: { type: Boolean, default: false },
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true }, // Nombre del usuario
+  dni: { type: String, required: true }, // DNI del usuario
+  email: { type: String, required: true, unique: true, match: emailRegex }, // Correo electrónico del usuario
+  password: { type: String, required: true }, // Contraseña del usuario
+  coment: { type: String }, // Comentario opcional
 
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
+  isAdmin: { type: Boolean, default: false }, // Rol de administrador
+  isActive: { type: Boolean, default: true }, // Estado activo del usuario
 });
-export default mongoose.model('User', User);
+
+export default mongoose.model('User', UserSchema);

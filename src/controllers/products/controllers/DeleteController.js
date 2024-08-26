@@ -1,15 +1,15 @@
 import HttpCodes from 'http-status-codes';
-import BlogModel from '../../../models/blogSchema.js';
+import ProductModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
 
 export class DeleteController {
-  static async deleteBlog(req, res) {
+  static async deleteProduct(req, res) {
     const {
       params: { id },
     } = req;
 
     try {
-      const action = await BlogModel.updateOne(
+      const action = await ProductModel.updateOne(
         // criterio de Busqueda
         {
           _id: id,
@@ -27,7 +27,7 @@ export class DeleteController {
       }
       res.json({
         Data: null,
-        message: 'blog eliminado correctamente',
+        message: 'product eliminado correctamente',
       });
     } catch (e) {
       internalError(res, e, 'ocurrio un error al eliminar el recurso indicado');
