@@ -5,16 +5,15 @@ export class GetController {
   static async getUsers(_, res) {
     try {
       const data = await UsersModel.find({
-        // criterio de busqueda
         isActive: true,
       });
 
       const filterdData = data.map((user) => {
         return {
           id: user._doc._id,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          username: user.username,
+          name: user.name,
+          dni: user.dni,
+          email: user.email,
           isAdmin: user.isAdmin,
         };
       });

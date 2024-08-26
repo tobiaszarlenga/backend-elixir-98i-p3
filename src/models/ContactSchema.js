@@ -27,4 +27,4 @@ export const contactSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('contact', contactSchema);
+export default mongoose.model('Contatcs', contactSchema);
