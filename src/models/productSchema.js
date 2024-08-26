@@ -1,25 +1,30 @@
 import mongoose from 'mongoose';
 
-export const contactSchema = new mongoose.Schema({
-  issue: {
-    type: String,
-    required: true,
-  },
+const Product = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  lastname: {
+  imageUrl: {
     type: String,
     required: true,
   },
-  email: {
+  price: {
     type: String,
     required: true,
   },
-  message: {
+  description: {
     type: String,
     required: true,
+  },
+  available: {
+    type: Boolean,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+    enum: ['entrantes', 'burgers', 'kids', 'bebidas', 'postres'],
   },
   isActive: {
     type: Boolean,
@@ -27,4 +32,4 @@ export const contactSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('contact', contactSchema);
+export default mongoose.model('Products', Product);
