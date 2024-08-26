@@ -94,7 +94,7 @@ export const put_productValidationSchema = Joi.object({
     'price',
     'description',
     'available',
-
+    'ingredients',
     'category',
   )
   .messages({

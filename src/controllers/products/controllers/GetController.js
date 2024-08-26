@@ -1,5 +1,5 @@
 import { internalError } from '../../../helpers/helpers.js';
-import ProductModel from '../../../models/productSchema.js';
+import ProductModel from '../../../models/ProductSchema.js';
 
 export class GetController {
   static async getProducts(_, res) {
@@ -16,6 +16,7 @@ export class GetController {
           price: product._doc.price,
           description: product._doc.description,
           available: product._doc.available,
+          ingredients: product._doc.ingredients,
           category: product._doc.category,
         };
       });

@@ -14,11 +14,9 @@ export const isAuthenticated = (req, res, next) => {
     });
     return;
   }
-  // si el header esta tiene el valor "Bearer Token"
   const token = authorizationHeader.split(' ')[1];
   try {
     const data = jwt.verify(token, process.env.SECRET_KEY);
-    // agregamos el campo "user a la request para futuro uso "
     req.user = data.user;
     next();
   } catch (_) {
