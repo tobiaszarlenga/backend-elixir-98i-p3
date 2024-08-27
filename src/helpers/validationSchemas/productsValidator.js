@@ -39,7 +39,7 @@ export const post_productValidationSchema = Joi.object({
   }),
   category: Joi.string()
     .trim()
-    .valid('entrantes', 'burgers', 'kids', 'bebidas', 'postres')
+    .valid('entrantes', 'burgers', 'tragos', 'bebidas', 'cervezas')
     .required()
     .messages({
       'any.only': "El campo 'category' debe ser uno de los valores permitidos",
@@ -82,7 +82,7 @@ export const put_productValidationSchema = Joi.object({
   }),
   category: Joi.string()
     .trim()
-    .valid('entrantes', 'burgers', 'kids', 'bebidas', 'postres')
+    .valid('entrantes', 'burgers', 'tragos', 'bebidas', 'cervezas')
     .messages({
       'any.only': "El campo 'category' debe ser uno de los valores permitidos",
       '*': "Revisa el campo 'category'",
@@ -94,7 +94,7 @@ export const put_productValidationSchema = Joi.object({
     'price',
     'description',
     'available',
-    'ingredients',
+
     'category',
   )
   .messages({
