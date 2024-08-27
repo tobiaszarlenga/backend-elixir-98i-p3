@@ -15,6 +15,7 @@ export class PostController {
       dni: body.dni,
       email: body.email,
       password: hashedPassword,
+      isAdmin: false,
     });
 
     try {
