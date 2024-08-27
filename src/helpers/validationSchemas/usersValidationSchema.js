@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+const passwordRegex = /^(?=.*[A-Z])(?=(.*\d){2,})[A-Za-z\d]{8,}$/;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const post_userValidationSchema = Joi.object({
@@ -33,7 +32,7 @@ export const post_userValidationSchema = Joi.object({
 
   password: Joi.string().trim().regex(passwordRegex).required().messages({
     'string.pattern.base':
-      "El campo 'password' debe tener una minúscula, una mayúscula, un dígito, y un caracter especial, entre 8 y 15 caracteres",
+      "El campo 'password' debe tener una mayúscula, dos dígitos",
     'any.required': "El campo 'password' es requerido",
     '*': "Revisa el campo 'password'",
   }),
