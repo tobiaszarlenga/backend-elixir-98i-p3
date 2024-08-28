@@ -1,54 +1,32 @@
-import ProductsModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/ProductSchema.js';
 
 export class GetController {
   static async getProducts(_, res) {
     try {
-      const data = await ProductsModel.find({
-        // criterio de busqueda
+      const data = await ProductModel.find({
         isActive: true,
       });
 
-      const filterdData = data.map((product) => {
+      const filteredData = data.map((product) => {
         return {
           id: product._doc._id,
-          title: product._doc.title,
+          name: product._doc.name,
           imageUrl: product._doc.imageUrl,
-          content: product._doc.content,
+          price: product._doc.price,
+          description: product._doc.description,
+          available: product._doc.available,
+          ingredients: product._doc.ingredients,
+          category: product._doc.category,
         };
       });
+
       res.json({
-        data: filterdData,
-        message: 'products encontrado correctamente',
+        data: filteredData,
+        message: 'Lista de productos encontrada correctamente',
       });
     } catch (e) {
-      internalError(res, e, 'ocurrio un error al leer la lista ');
-    }
-  }
-
-  static async getProduct(req, res) {
-    const {
-      params: { id },
-    } = req;
-    try {
-      const data = await ProductsModel.findOne({
-        // criterio de busqueda
-        isActive: true,
-        _id: id,
-      });
-
-      const formattedData = {
-        id: data._doc._id,
-        title: data._doc.title,
-        imageUrl: data._doc.imageUrl,
-        content: data._doc.content,
-      };
-      res.json({
-        data: formattedData,
-        message: 'product encontrado correctamente',
-      });
-    } catch (e) {
-      internalError(res, e, 'ocurrio un error al leer el product ');
+      internalError(res, e, 'Ocurrió un error al encontrar los datos');
     }
   }
 }

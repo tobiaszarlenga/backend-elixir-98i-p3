@@ -24,7 +24,7 @@ const Product = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['entrantes', 'burgers', 'tragos', 'bebidas', 'cervezas'],
+    enum: ['entrantes', 'burgers', 'kids', 'bebidas', 'postres'],
   },
   isActive: {
     type: Boolean,

@@ -11,10 +11,11 @@ export class PostController {
     const hashedPassword = bcryptjs.hashSync(body.password, 10);
 
     const newUser = new UserModel({
-      firstname: body.firstname,
-      lastname: body.lastname,
-      username: body.username,
+      name: body.name,
+      dni: body.dni,
+      email: body.email,
       password: hashedPassword,
+      isAdmin: false,
     });
 
     try {

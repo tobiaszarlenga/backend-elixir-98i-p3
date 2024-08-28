@@ -1,6 +1,6 @@
 import HttpCodes from 'http-status-codes';
-import ProductModel from '../../../models/productSchema.js';
 import { internalError } from '../../../helpers/helpers.js';
+import ProductModel from '../../../models/ProductSchema.js';
 
 export class PutController {
   static async putProduct(req, res) {
@@ -8,7 +8,7 @@ export class PutController {
       body,
       params: { id },
     } = req;
-    // si llegamos al controlador el body ya esta validado y tiene los campos correspondientes
+
     try {
       const action = await ProductModel.updateOne(
         {
@@ -19,20 +19,16 @@ export class PutController {
       if (action.matchedCount === 0) {
         res.status(HttpCodes.BAD_REQUEST).json({
           data: null,
-          message: 'el recurso no fue encontrado',
+          message: 'El producto indicado no fue encontrado',
         });
         return;
       }
       res.json({
-        Data: null,
-        message: 'product actualizado correctamente',
+        data: null,
+        message: 'Producto actualizado correctamente',
       });
     } catch (e) {
-      internalError(
-        res,
-        e,
-        'ocurrio un error al actualizar el recurso indicado',
-      );
+      internalError(res, e, 'Ocurrió un error al actualizar los datos');
     }
   }
 }

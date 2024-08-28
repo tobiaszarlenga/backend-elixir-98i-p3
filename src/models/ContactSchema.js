@@ -1,25 +1,25 @@
 import mongoose from 'mongoose';
 
-const User = new mongoose.Schema({
+export const contactSchema = new mongoose.Schema({
+  issue: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  dni: {
-    type: Number,
+  lastname: {
+    type: String,
     required: true,
   },
   email: {
     type: String,
     required: true,
   },
-  password: {
+  message: {
     type: String,
     required: true,
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
   },
   isActive: {
     type: Boolean,
@@ -27,4 +27,4 @@ const User = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Users', User);
+export default mongoose.model('Contatcs', contactSchema);

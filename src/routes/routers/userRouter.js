@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { Users } from '../../controllers/users/index.js';
+import { users } from '../../controllers/users/index.js';
 import { validateBody } from '../../middlewares/validateBody.js';
 import { isAuthenticated } from '../../middlewares/isAuthenticated.js';
 import { isAdmin } from '../../middlewares/isAdmin.js';
@@ -9,13 +9,10 @@ import { post_userValidationSchema } from '../../helpers/validationSchemas/users
 
 export const userRouter = express.Router();
 
-// GET ----------------------------
-userRouter.get('/', isAuthenticated, isAdmin, Users.GetController.getUsers);
+userRouter.get('/', isAuthenticated, isAdmin, users.GetController.getUsers);
 
-// POST ----------------------------
-// /api/v1/users
 userRouter.post(
   '/',
   (req, res, next) => validateBody(req, res, next, post_userValidationSchema),
-  Users.PostController.postUser,
+  users.PostController.postUser,
 );
