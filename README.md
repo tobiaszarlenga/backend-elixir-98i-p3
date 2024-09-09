@@ -81,6 +81,9 @@ Actualmente, no hay un proceso de despliegue en producción configurado para est
 
 Este proyecto está bajo la Rolling Code License.
 
+##Colaborador
+ mentor.rolling@gmail.com
+
 ## Contacto
 
 Desarrollado por Tobias Zarlenga y Nahuel Anselmo. Puedes encontrarnos en GitHub: [tobiaszarlenga](https://github.com/tobiaszarlenga) y [NahuelAnselmo](https://github.com/NahuelAnselmo)
